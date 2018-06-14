@@ -17,9 +17,9 @@ from PIL import Image
 from wordcloud import WordCloud, ImageColorGenerator, STOPWORDS
 from matplotlib.font_manager import FontProperties
 
-SIGNATURES = 0
+SIGNATURES = 1
 HEAD = 0
-PROVINCE = 0
+PROVINCE = 1
 # @itchat.msg_register(itchat.content.TEXT)
 # def print_content(msg):
 #     print(msg['Text'])
@@ -44,7 +44,7 @@ if PROVINCE is 1:
     # 设置x，y轴刻度一致，这样饼图才能是圆的
     plt.axis('equal')
     plt.legend()
-    # plt.show()
+    plt.show()
     provinces = friends_df['Province']
 
     ## 全部好友省份分部
@@ -125,8 +125,14 @@ print(categories)
 font = FontProperties(fname=r"/Users/zhaohsun/Documents/Work/Tech/python/itchat-project/simhei.ttf", size=14)  #size可不用指定
 data = categories.value_counts()[categories.value_counts() > 5]
 print(data)
-ax = data.plot(kind='bar', rot = 0)
+
 labels = [label for label in data.index.values]
+print(labels)
+data.columns=[labels]
+
+ax = data.plot(kind='bar')
+
+
 ax.set_xticklabels(labels, fontproperties=font)
 plt.show()
 
