@@ -3,13 +3,11 @@ import sys
 import itchat
 import numpy as np
 import pandas as pd
-# import matplotlib.pyplot as plt
 from matplotlib import pyplot as plt
-import seaborn as sns
+
 from tqdm import tqdm
 import requests
 import base64
-import time
 
 # 渲染好友分布地图
 from pyecharts import Map
@@ -18,6 +16,8 @@ from PIL import Image
 from wordcloud import WordCloud, ImageColorGenerator, STOPWORDS
 from matplotlib.font_manager import FontProperties
 
+import time
+import seaborn as sns
 HEAD_DEBUG = 1
 
 
@@ -33,8 +33,10 @@ def get_sex(friends_df):
     plt.axis('equal')
     plt.legend()
     plt.show()
-    provinces = friends_df['Province']
 
+
+def get_provinces(friends_df):
+    provinces = friends_df['Province']
     ## 全部好友省份分部
     p_value = provinces.value_counts()
     print(p_value)
@@ -158,7 +160,7 @@ def get_head(friends_df):
     print(categories)
 
     ## 设置font,标签可以显示中文
-    font = FontProperties(fname=r"/Users/zhaohsun/Documents/Work/Tech/python/itchat-project/simhei.ttf",
+    font = FontProperties(fname=r"./simhei.ttf",
                           size=14)  # size可不用指定
     data = categories.value_counts()[categories.value_counts() > 5]
     print(data)
@@ -211,11 +213,12 @@ def main(argv):
     itchat.auto_login(hotReload=True)
     # itchat.run()
 
-    itchat.send('aa测试消息发送', toUserName='filehelper')
+    itchat.send('测试消息发送', toUserName='filehelper')
 
     friends = itchat.get_friends(update=True)
     friends_df = pd.DataFrame(friends)
     get_sex(friends_df)
+    get_provinces(friends_df)
     get_head(friends_df)
     get_signatures(friends_df)
 
